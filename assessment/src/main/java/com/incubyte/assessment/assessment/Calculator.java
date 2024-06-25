@@ -46,17 +46,24 @@ public class Calculator {
 
 	private Map<String, String> getFormattedNumbersAndDelimiter(String numbers) {
 		Map<String, String> formattedStrings = new HashMap<>();
-		String delimiter = "\n|";
+		String delimiter = "";
 		if (numbers.startsWith("//")) {
 			int startIndex = 2;
 			int endIndex = numbers.indexOf("\n");
-			formattedStrings.put("delimiter", delimiter + numbers.substring(startIndex, endIndex));
+			formattedStrings.put("delimiter", validateAndFormat(delimiter + numbers.substring(startIndex, endIndex)));
 			formattedStrings.put("formattedNumber", numbers.substring(endIndex + 1));
 		} else {
-			formattedStrings.put("delimiter", delimiter + ",");
+			formattedStrings.put("delimiter", validateAndFormat(","));
 			formattedStrings.put("formattedNumber", numbers);
 		}
 		return formattedStrings;
+	}
+	
+	private String validateAndFormat(String delimiter) {
+		if(delimiter.startsWith("[") && delimiter.endsWith("]")) {			
+			return "\n|" + delimiter.substring(1, delimiter.length() - 1);
+		}
+		return "\n|"+delimiter;
 	}
 
 }

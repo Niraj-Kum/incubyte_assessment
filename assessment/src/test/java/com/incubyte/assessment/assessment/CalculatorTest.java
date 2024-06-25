@@ -63,4 +63,21 @@ public class CalculatorTest {
 	void shouldIgnoreNumbersGreaterthatThousand() throws NegativNumbersNotAllowedException {
 		Assertions.assertEquals(calculator.add("//;\n1000;2000;3000;4;5;6;715;8;9"), 1747);
 	}
+	
+	@Test
+	public void longLengthDelimiterTest() throws NegativNumbersNotAllowedException {
+		Assertions.assertEquals(calculator.add("//;;;;;;;;;;\n1;;;;;;;;;;2;;;;;;;;;;3"), 6);
+	}
+	
+	@Test
+	public void singleBoxDelimiterTest() throws NegativNumbersNotAllowedException {
+		int ans = calculator.add("//[;]\n1;2;3");
+		Assertions.assertEquals(ans, 6);
+	}
+
+	@Test
+	public void singleBoxLongDelimiterTest() throws NegativNumbersNotAllowedException {
+		int ans = calculator.add("//[;;;;;;;;;;]\n1;;;;;;;;;;2;;;;;;;;;;3");
+		Assertions.assertEquals(ans, 6);
+	}
 }
