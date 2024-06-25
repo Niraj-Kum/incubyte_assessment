@@ -31,4 +31,10 @@ public class CalculatorTest {
 		Assertions.assertEquals(calculator.add("1,2"), 3);
 		Assertions.assertEquals(calculator.add("267,2433"), 2700);
 	}
+	
+	@Test
+	void addTwoDigitsWithNewLineSeperation() {
+		Assertions.assertEquals(calculator.add("1\n2"), 3);
+		Assertions.assertEquals(calculator.add("267\n2433"), 2700);
+	}
 }
