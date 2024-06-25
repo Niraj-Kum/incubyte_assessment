@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 public class Calculator {
 	public int add(String numbers) {
 		int result = 0;
-		if(numbers.isEmpty()) {
-			result = 0;
+		if(numbers == null || numbers.isEmpty()) {
+			return result;
 		}
 		return result;
 	}

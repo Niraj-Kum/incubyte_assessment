@@ -14,4 +14,9 @@ public class CalculatorTest {
 	void addEmptyString() {
 		Assertions.assertEquals(calculator.add(""), 0);
 	}
+	
+	@Test
+	void addNullString() {
+		Assertions.assertEquals(calculator.add(null), 0);
+	}
 }
