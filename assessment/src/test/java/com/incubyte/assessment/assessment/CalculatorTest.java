@@ -25,4 +25,10 @@ public class CalculatorTest {
 		Assertions.assertEquals(calculator.add("100"), 100);
 		Assertions.assertEquals(calculator.add("26500"), 26500);
 	}
+	
+	@Test
+	void addTwoDigits() {
+		Assertions.assertEquals(calculator.add("1,2"), 3);
+		Assertions.assertEquals(calculator.add("267,2433"), 2700);
+	}
 }
