@@ -32,7 +32,9 @@ public class Calculator {
 			if(value < 0) {
 				negativeNumbers.add(x);
 			}
-			sum += value;
+			if(value <= 1000) {				
+				sum += value;
+			}
 		}
 		if(negativeNumbers.size() > 0) {
 			StringJoiner stringJoiner = new StringJoiner(",");

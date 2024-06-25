@@ -23,19 +23,19 @@ public class CalculatorTest {
 	@Test
 	void addSingleDigit() throws NegativNumbersNotAllowedException {
 		Assertions.assertEquals(calculator.add("100"), 100);
-		Assertions.assertEquals(calculator.add("26500"), 26500);
+		Assertions.assertEquals(calculator.add("26500"), 0);
 	}
 	
 	@Test
 	void addTwoDigits() throws NegativNumbersNotAllowedException {
 		Assertions.assertEquals(calculator.add("1,2"), 3);
-		Assertions.assertEquals(calculator.add	("267,2433"), 2700);
+		Assertions.assertEquals(calculator.add	("267,2433"), 267);
 	}
 	
 	@Test
 	void addTwoDigitsWithNewLineSeperation() throws NegativNumbersNotAllowedException {
 		Assertions.assertEquals(calculator.add("1\n2"), 3);
-		Assertions.assertEquals(calculator.add("267\n2433"), 2700);
+		Assertions.assertEquals(calculator.add("267\n2433"), 267);
 	}
 	
 	@Test
@@ -57,5 +57,10 @@ public class CalculatorTest {
 	@Test
 	void throwExceptionWhenAddingNegativeNumber() {
 		Assertions.assertThrows(NegativNumbersNotAllowedException.class, () -> calculator.add("//;\n-1;-2;3;4;-5;6;-7;8;9"));
+	}
+	
+	@Test
+	void shouldIgnoreNumbersGreaterthatThousand() throws NegativNumbersNotAllowedException {
+		Assertions.assertEquals(calculator.add("//;\n1000;2000;3000;4;5;6;715;8;9"), 1747);
 	}
 }
