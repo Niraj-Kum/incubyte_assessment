@@ -48,4 +48,9 @@ public class CalculatorTest {
 		Assertions.assertEquals(calculator.add("1,2,3,4,5,6,7,8,9"), 45);
 		Assertions.assertEquals(calculator.add("161,43\n31,5\n63,78,9"), 390);
 	}
+	
+	@Test
+	void testToAddUsingNewDelimiter() {
+		Assertions.assertEquals(calculator.add("//;\n1;2;3;4;5;6;7;8;9"), 45);
+	}
 }
