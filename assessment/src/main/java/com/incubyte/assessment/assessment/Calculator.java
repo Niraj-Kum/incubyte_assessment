@@ -9,6 +9,6 @@ public class Calculator {
 		if(numbers == null || numbers.isEmpty()) {
 			return result;
 		}
-		return result;
+		return Integer.parseInt(numbers);
 	}
 }

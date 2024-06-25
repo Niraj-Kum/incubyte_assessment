@@ -19,4 +19,10 @@ public class CalculatorTest {
 	void addNullString() {
 		Assertions.assertEquals(calculator.add(null), 0);
 	}
+	
+	@Test
+	void addSingleDigit() {
+		Assertions.assertEquals(calculator.add("100"), 100);
+		Assertions.assertEquals(calculator.add("26500"), 26500);
+	}
 }
