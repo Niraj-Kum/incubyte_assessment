@@ -1,7 +1,9 @@
 package com.incubyte.assessment.assessment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringJoiner;
 
 import org.springframework.stereotype.Component;
 
@@ -10,7 +12,7 @@ public class Calculator {
 
 	public static final String DEFAULT_DELIMITER = "\n|,";
 
-	public int add(String numbers) {
+	public int add(String numbers) throws NegativNumbersNotAllowedException {
 		int result = 0;
 		if (numbers == null || numbers.isEmpty()) {
 			return result;
@@ -21,11 +23,21 @@ public class Calculator {
 		return calculateSum(formattedNumbers, delimiter);
 	}
 
-	private int calculateSum(String numbers, String delimiter) {
+	private int calculateSum(String numbers, String delimiter) throws NegativNumbersNotAllowedException {
 		String[] digits = numbers.split(delimiter);
 		int sum = 0;
+		ArrayList<String> negativeNumbers = new ArrayList<>();
 		for (String x : digits) {
-			sum += Integer.parseInt(x);
+			int value = Integer.parseInt(x);
+			if(value < 0) {
+				negativeNumbers.add(x);
+			}
+			sum += value;
+		}
+		if(negativeNumbers.size() > 0) {
+			StringJoiner stringJoiner = new StringJoiner(",");
+			negativeNumbers.forEach(stringJoiner::add);
+			throw new NegativNumbersNotAllowedException("negatives not allowed [" + stringJoiner.toString() + "]");
 		}
 		return sum;
 	}
