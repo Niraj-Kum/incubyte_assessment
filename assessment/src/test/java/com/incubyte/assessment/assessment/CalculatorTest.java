@@ -80,4 +80,10 @@ public class CalculatorTest {
 		int ans = calculator.add("//[;;;;;;;;;;]\n1;;;;;;;;;;2;;;;;;;;;;3");
 		Assertions.assertEquals(ans, 6);
 	}
+	
+	@Test
+	public void multiBoxMultipleDelimiterTest() throws NegativNumbersNotAllowedException {
+		int ans = calculator.add("//[;][%]\n1;2%3");
+		Assertions.assertEquals(ans, 6);
+	}
 }

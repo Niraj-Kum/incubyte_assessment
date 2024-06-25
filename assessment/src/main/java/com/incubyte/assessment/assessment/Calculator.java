@@ -61,7 +61,14 @@ public class Calculator {
 	
 	private String validateAndFormat(String delimiter) {
 		if(delimiter.startsWith("[") && delimiter.endsWith("]")) {			
-			return "\n|" + delimiter.substring(1, delimiter.length() - 1);
+			String delimiters[] = delimiter.split("\\[");
+			String finalDelimiter = "\n";
+			for(String x: delimiters) {
+				if(!x.isEmpty()) {
+					finalDelimiter += "|" + x.substring(0, x.length() - 1);
+				}
+			}
+			return finalDelimiter;
 		}
 		return "\n|"+delimiter;
 	}
