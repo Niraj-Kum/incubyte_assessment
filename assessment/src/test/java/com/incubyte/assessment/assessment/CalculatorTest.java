@@ -56,6 +56,11 @@ public class CalculatorTest {
 	}
 	
 	@Test
+	void shouldMultiplyUsingNewDelimiter() throws NegativeNumbersNotAllowedException {
+		Assertions.assertEquals(calculator.add("//*\n1*2*3*4*5*6*7*8*9"), 362880);
+	}
+	
+	@Test
 	void throwExceptionWhenAddingNegativeNumber() {
 		Assertions.assertThrows(NegativeNumbersNotAllowedException.class, () -> calculator.add("//;\n-1;-2;3;4;-5;6;-7;8;9"));
 	}

@@ -21,16 +21,19 @@ public class Calculator {
 	}
 
 	private int calculateSum(String numbers, String delimiter) throws NegativeNumbersNotAllowedException {
+		boolean doMultiplication = (delimiter.contains("\\*"));
 		String[] digits = numbers.split(delimiter);
-		int sum = 0;
+		int result = doMultiplication ? 1 : 0;
 		ArrayList<String> negativeNumbers = new ArrayList<>();
 		for (String x : digits) {
 			int value = Integer.parseInt(x);
 			if (value < 0) {
 				negativeNumbers.add(x);
 			}
-			if (value <= Constants.MAX_VALUE) {
-				sum += value;
+			if (doMultiplication) {
+				result = result * value;
+			} else if(value <= Constants.MAX_VALUE) {
+				result += value;
 			}
 		}
 		if (!negativeNumbers.isEmpty()) {
@@ -39,7 +42,7 @@ public class Calculator {
 			throw new NegativeNumbersNotAllowedException(Constants.NEGATIVE_NUMBER_EXCEPTION_MESSAGE + " "
 					+ Constants.OPEN_BRACKET + stringJoiner.toString() + Constants.CLOSE_BRACKET);
 		}
-		return sum;
+		return result;
 	}
 
 	private Map<String, String> getFormattedNumbersAndDelimiter(String numbers) {
@@ -60,7 +63,7 @@ public class Calculator {
 
 	private String validateAndFormat(String delimiter) {
 		if (delimiter.startsWith(Constants.OPEN_BRACKET) && delimiter.endsWith(Constants.CLOSE_BRACKET)) {
-			String delimiters[] = delimiter.split(Constants.NEW_DELIMITER_BACKWARD_BACKSLASH + Constants.CLOSE_BRACKET);
+			String delimiters[] = delimiter.split(Constants.NEW_DELIMITER_BACKWARD_BACKSLASH + Constants.OPEN_BRACKET);
 			String finalDelimiter = Constants.NEW_LINE;
 			for (String x : delimiters) {
 				if (!x.isEmpty()) {
@@ -69,7 +72,11 @@ public class Calculator {
 			}
 			return finalDelimiter;
 		}
-		return Constants.NEW_LINE + Constants.PIPE + delimiter;
+		if(delimiter.contains("*")) {
+			delimiter = Constants.NEW_LINE + Constants.PIPE + "\\*";
+		} else {
+			delimiter = Constants.NEW_LINE + Constants.PIPE + delimiter;			
+		}
+		return delimiter;
 	}
-
 }
