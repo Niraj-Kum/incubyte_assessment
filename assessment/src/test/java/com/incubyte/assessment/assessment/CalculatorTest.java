@@ -98,4 +98,9 @@ public class CalculatorTest {
 		int ans = calculator.add("//[;;;;;;;;][%%%%%][&&&&&&&]\n1;;;;;;;;2%%%%%3&&&&&&&4");
 		Assertions.assertEquals(ans, 10);
 	}
+	
+	@Test
+	void shouldAddElementsAtOddIndex() throws NegativeNumbersNotAllowedException {
+		Assertions.assertEquals(calculator.add("//1\n1,2,3,4,5,6,7,8,9"), 1 + 3 + 5 + 7 + 9);
+	}
 }

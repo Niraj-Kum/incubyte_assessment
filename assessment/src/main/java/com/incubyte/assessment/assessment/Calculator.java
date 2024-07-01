@@ -14,18 +14,52 @@ public class Calculator {
 		if (numbers == null || numbers.isEmpty()) {
 			return 0;
 		}
-		Map<String, String> formattedString = getFormattedNumbersAndDelimiter(numbers);
+		String skip = checkForEvenOddPattern(numbers);
+		Map<String, String> formattedString = getFormattedNumbersAndDelimiter(numbers, skip);
 		String delimiter = formattedString.get(Constants.DELIMITER);
 		String formattedNumbers = formattedString.get(Constants.FORMATTED_NUMBER);
-		return calculateSum(formattedNumbers, delimiter);
+		return calculateSum(formattedNumbers, delimiter, skip);
+	}
+	
+	String checkForEvenOddPattern(String numbers) {
+		String skip = "";
+		if(numbers.startsWith("//")) {
+			String arr[] = numbers.split("\n");
+			if(arr[0].contains("1")) {
+				skip = "odd";
+			}else if(arr[0].contains("0")) {
+				skip = "even";
+			}
+		}
+		return skip;
 	}
 
-	private int calculateSum(String numbers, String delimiter) throws NegativeNumbersNotAllowedException {
+	private int getSkipValue(String skip) {
+		if(skip.equals("odd")) {
+			return 0;
+		} else if(skip.equals("even")) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+	
+	private int addBasedOnSkip(int index, int value, int skipValue) {
+		if(skipValue == -1 || skipValue == index % 2){
+			return value;
+		} else {
+			return 0;
+		}
+	}
+	
+	private int calculateSum(String numbers, String delimiter, String skip) throws NegativeNumbersNotAllowedException {
 		boolean doMultiplication = (delimiter.contains("\\*"));
+		int skipValue = getSkipValue(skip);
 		String[] digits = numbers.split(delimiter);
 		int result = doMultiplication ? 1 : 0;
 		ArrayList<String> negativeNumbers = new ArrayList<>();
-		for (String x : digits) {
+		for (int i = 0; i < digits.length; i++) {
+			String x = digits[i];
 			int value = Integer.parseInt(x);
 			if (value < 0) {
 				negativeNumbers.add(x);
@@ -33,7 +67,7 @@ public class Calculator {
 			if (doMultiplication) {
 				result = result * value;
 			} else if(value <= Constants.MAX_VALUE) {
-				result += value;
+				result += addBasedOnSkip(i, value, skipValue);
 			}
 		}
 		if (!negativeNumbers.isEmpty()) {
@@ -45,7 +79,20 @@ public class Calculator {
 		return result;
 	}
 
-	private Map<String, String> getFormattedNumbersAndDelimiter(String numbers) {
+	String removeSkipIfPresent(String numbers, String skip) {
+		String arr[] = numbers.split("\n");
+		String result = "";
+		if(arr[0].contains(skip)) {
+			result = arr[0].replace(skip, "");
+		}
+		for(int i = 1; i < arr.length; i++) {
+			result += arr[i];
+		}
+		return result;
+	}
+	
+	private Map<String, String> getFormattedNumbersAndDelimiter(String numbers, String skip) {
+		numbers = removeSkipIfPresent(numbers, skip);
 		Map<String, String> formattedStrings = new HashMap<>();
 		String delimiter = "";
 		if (numbers.startsWith(Constants.NEW_DELIMITER_FORWARD_BACKSLASH)) {
